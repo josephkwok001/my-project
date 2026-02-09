@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import CardList from './components/CardList';
 import AddCardFrom from './components/AddCardFrom';
 import StudyCard from './components/StudyCard';
-import './App.css';
 
 function App() {
 

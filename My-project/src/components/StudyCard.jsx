@@ -36,9 +36,11 @@ function StudyCard({ cards }) {
 
 
     return (
-        <div>
-            {isFlipped ? <p>{cards[index].back}</p> : <p>{cards[index].front}</p>}
-            <p>Card {index + 1} of {cards.length}</p>
+        <div className="study-card-container">
+            <div className="card-display" onClick={flipCard}>
+                {isFlipped ? <p>{cards[index].back}</p> : <p>{cards[index].front}</p>}
+            </div>
+            <p className="card-counter">Card {index + 1} of {cards.length}</p>
             <button onClick={flipCard}>Flip Card</button>
             <button onClick={prevCard}>Previous Card</button>
             <button onClick={nextCard}>Next Card</button>
