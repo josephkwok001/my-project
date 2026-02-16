@@ -1,0 +1,121 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+.app-container {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    max-width: 800px;
+    margin: 0 auto;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.app-container h1 {
+    text-align: center;
+    color: white;
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.study-card-container {
+    background: white;
+    text-align: center;
+    padding: 40px;
+    margin: 30px 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+
+}
+
+.card-display {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 60px 40px;
+    margin-bottom: 20px;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    transition: transform 0.2s;
+
+}
+
+.card-display:hover {
+    transform: scale(1.04);
+}
+
+.card-counter {
+    color: #666;
+    margin-bottom: 20px;
+    font-size: 1rem;
+}
+
+/* Buttons */
+
+button {
+    background: white;
+    color: #667eea;
+    border: 2px solid #667eea;
+    padding: 12px 24px;
+    margin: 5px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+
+button:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* Add Card Form */
+.add-card-form {
+  background: white;
+  border-radius: 15px;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+.add-card-form h3 {
+  color: #667eea;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.add-card-form input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.add-card-form input:focus {
+  outline: none;
+  border-color: #667eea;
+}
