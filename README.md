@@ -1,3 +1,11 @@
+# Flashcards
+
+A flashcard app with spaced repetition (Again / Hard / Good / Easy). Add cards, study by due date or study all.
+
+**Live demo:** [View on GitHub Pages](https://josephkwok001.github.io/my-project/) *(after you enable Pages below)*
+
+---
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

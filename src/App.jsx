@@ -144,8 +144,6 @@ function App() {
   return (
     <div className="app-container">
       <h1>Flashcards</h1>
-      <AddCardFrom addCard={addCard} />
-      <CardList cards={cards} deleteCard={deleteCard} editCard={editCard} />
       <div className="study-section">
         <div className="study-mode-toggle">
           <button
@@ -169,6 +167,8 @@ function App() {
           studyAllMode={studyAllMode}
         />
       </div>
+      <AddCardFrom addCard={addCard} />
+      <CardList cards={cards} deleteCard={deleteCard} editCard={editCard} />
     </div>
   );
 }
