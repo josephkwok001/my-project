@@ -2,7 +2,8 @@
 
 A flashcard app with spaced repetition (Again / Hard / Good / Easy). Add cards, study by due date or study all.
 
-**Live demo:** [View on GitHub Pages](https://josephkwok001.github.io/my-project/) *(after you enable Pages below)*
+**Live demo:** [View on GitHub Pages](https://josephkwok001.github.io/my-project/)  
+*(Replace `my-project` with your repo name if different—e.g. `My-project`.)*
 
 ---
 
