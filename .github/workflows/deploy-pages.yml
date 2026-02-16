@@ -30,7 +30,7 @@ jobs:
         env:
           VITE_BASE_URL: /${{ github.event.repository.name }}/
         run: |
-          npm ci
+          npm install
           npm run build
 
       - name: Setup Pages
