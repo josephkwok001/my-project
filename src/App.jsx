@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import CardList from './components/CardList';
 import AddCardFrom from './components/AddCardFrom';
 import StudyCard from './components/StudyCard';
+import Statistics from './components/Statistics';
 
 function App() {
 
@@ -162,13 +163,20 @@ function App() {
           </button>
         </div>
         <StudyCard
-          cards={cardsToStudy}
-          updateCardReview={updateCardReview}
-          studyAllMode={studyAllMode}
+          cards={cardsToStudy} // either be due cards or all cards
+          updateCardReview={updateCardReview} // function that updates the card review after user clicks it
+          studyAllMode={studyAllMode} // boolean to determine if the user is studying all cards or just due cards
         />
       </div>
+      <Statistics cards={cards} />
       <AddCardFrom addCard={addCard} />
-      <CardList cards={cards} deleteCard={deleteCard} editCard={editCard} />
+      <CardList 
+        cards={cards} 
+        deleteCard={deleteCard} 
+        editCard={editCard} 
+        cardsToStudy={cardsToStudy} // either be due cards or all cards
+        studyAllMode={studyAllMode} // boolean to determine if the user is studying all cards or just due cards
+      />
     </div>
   );
 }
