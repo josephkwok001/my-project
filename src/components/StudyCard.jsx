@@ -5,19 +5,72 @@ function StudyCard({ cards, updateCardReview, studyAllMode = false }) {
     const [index, setIndex] = useState(0);
     const [isFlipped, setIsFlipped] = useState(false);
 
-    // When the cards list shrinks (e.g. after rating in Due today mode), clamp index so we don't show undefined
+    // When the cards list shrinks (e.g. after rating in Due today mode),
+    // clamp index so we don't point past the end.
     useEffect(() => {
         if (cards.length > 0 && index >= cards.length) {
-            setIndex(0);
+            setIndex(cards.length - 1);
         }
     }, [cards.length, index]);
+
+    useEffect(() => {
+        function handleKeyDown(event) {
+            const activeTag = document.activeElement?.tagName;
+            if (activeTag === 'INPUT' || activeTag === 'TEXTAREA') {
+                return;
+            }
+
+            switch(event.key) {
+                case ' ': // Spacebar
+                    event.preventDefault();
+                    flipCard();
+                    break;
+                case 'ArrowLeft': 
+                    event.preventDefault();
+                    prevCard();
+                    break;
+                case 'ArrowRight': 
+                    event.preventDefault();
+                    nextCard();
+                    break;
+                case '1':
+                    event.preventDefault();
+                    if(!studyAllMode) handleQuality(1);
+                    break;
+                case '2':
+                    // Hard
+                    event.preventDefault();
+                    if (!studyAllMode) handleQuality(2);
+                    break;
+                case '3':
+                    // Good
+                    event.preventDefault();
+                    if (!studyAllMode) handleQuality(3);
+                    break;
+                case '4':
+                    // Easy
+                    event.preventDefault();
+                    if (!studyAllMode) handleQuality(4);
+                    break;
+                default:
+                    break;
+            }
+        }
+        
+        window.addEventListener('keydown', handleKeyDown);
+        
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [studyAllMode, flipCard, prevCard, nextCard, handleQuality]);
+
 
     function flipCard() {
         setIsFlipped(!isFlipped);
     }
 
     function nextCard() {
-        const nextId = index + 1;
+        const nextId = index + 1;   
 
         if (nextId >= cards.length) {
             setIndex(0);
@@ -40,13 +93,21 @@ function StudyCard({ cards, updateCardReview, studyAllMode = false }) {
         setIsFlipped(false);
     }
 
+    // Derive a safe index and current card so we never read cards[undefined]
+    const safeIndex = Math.min(index, Math.max(cards.length - 1, 0));
+    const currentCard = cards[safeIndex];
+
     function handleQuality(quality) {
-        const cardId = cards[index]?.id;
+        const cardId = currentCard?.id;
         if (cardId == null) return;
         if (!studyAllMode) {
             updateCardReview(cardId, quality);
         }
-        setIndex(i => (i + 1 >= cards.length ? 0 : i + 1));
+        setIndex(i => {
+            if (cards.length === 0) return 0;
+            const next = i + 1;
+            return next >= cards.length ? 0 : next;
+        });
         setIsFlipped(false);
     }
     
@@ -65,9 +126,9 @@ function StudyCard({ cards, updateCardReview, studyAllMode = false }) {
     return (
         <div className="study-card-container">
             <div className="card-display" onClick={flipCard}>
-                {isFlipped ? <p>{cards[index].back}</p> : <p>{cards[index].front}</p>}
+                {isFlipped ? <p>{currentCard.back}</p> : <p>{currentCard.front}</p>}
             </div>
-            <p className="card-counter">Card {index + 1} of {cards.length}</p>
+            <p className="card-counter">Card {safeIndex + 1} of {cards.length}</p>
             {!studyAllMode && (
                 <div className="quality-buttons">
                     <button type="button" className="quality-again" onClick={() => handleQuality(1)}>Again</button>
