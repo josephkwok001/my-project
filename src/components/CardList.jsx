@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useCards } from '../context/CardContext';
 
 function CardList() {
@@ -6,6 +6,14 @@ function CardList() {
   const [editingId, setEditingId] = useState(null);
   const [editFront, setEditFront] = useState('');
   const [editBack, setEditBack] = useState('');
+
+  const editFrontRef = useRef(null);
+
+  useEffect(() => {
+    if (editingId !== null && editFrontRef.current) {
+      editFrontRef.current.focus();
+    }
+  }, [editingId]);
 
   function startEdit(card) {
     setEditingId(card.id);
@@ -33,6 +41,7 @@ function CardList() {
           {editingId === card.id ? (
             <>
               <input
+                ref={editFrontRef}
                 value={editFront}
                 onChange={(e) => setEditFront(e.target.value)}
               />
