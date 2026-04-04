@@ -1,8 +1,29 @@
-function Statistics({ cards }) {
-    const totalCards = cards.length;
-    const dueCards = cards.filter(card => new Date(card.nextReview) <= new Date()).length;
-    const newCards = cards.filter(card => card.repetitions === 0).length;
-    const mastered = cards.filter(card => card.repetitions >= 3).length;
+import { useMemo } from 'react';
+import { useCards } from '../context/CardContext';
+
+function Statistics() {
+  const { cards } = useCards();
+    const { totalCards, dueCards, newCards, mastered } = useMemo(() => {
+        return {
+            totalCards: cards.length,
+            dueCards: cards.filter(card => new Date(card.nextReview) <= new Date()).length,
+            newCards: cards.filter(card => card.repetitions === 0).length,
+            mastered: cards.filter(card => card.repetitions >= 3).length,
+        };
+    }, [cards]);
+
+
+    /*
+    User flips a card (cards didn't change)
+    → Statistics re-renders
+    → useMemo checks: did "cards" change? No.
+    → Reuses cached result. Filters don't run.
+
+    User adds a new card (cards changed)
+  → Statistics re-renders
+  → useMemo checks: did "cards" change? Yes!
+  → Re-runs the filters. Caches the new result.
+    */
 
     return (
         <div className="stats-container">

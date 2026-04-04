@@ -1,5 +1,8 @@
 import { useState } from 'react';
-function CardList({ cards, deleteCard, editCard }) {
+import { useCards } from '../context/CardContext';
+
+function CardList() {
+  const { cards, deleteCard, editCard } = useCards();
   const [editingId, setEditingId] = useState(null);
   const [editFront, setEditFront] = useState('');
   const [editBack, setEditBack] = useState('');

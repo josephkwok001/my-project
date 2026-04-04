@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
+import { useCards } from '../context/CardContext';
 
-function StudyCard({ cards, updateCardReview, studyAllMode = false }) {
+function StudyCard() {
+  const { cardsToStudy: cards, updateCardReview, studyAllMode } = useCards();
 
     const [index, setIndex] = useState(0);
     const [isFlipped, setIsFlipped] = useState(false);
