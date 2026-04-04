@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useCards } from '../context/CardContext';
 
 function StudyCard() {
@@ -6,6 +6,8 @@ function StudyCard() {
 
     const [index, setIndex] = useState(0);
     const [isFlipped, setIsFlipped] = useState(false);
+
+    const flipCountRef = useRef(0);
 
     // When the cards list shrinks (e.g. after rating in Due today mode),
     // clamp index so we don't point past the end.
@@ -68,6 +70,8 @@ function StudyCard() {
 
 
     function flipCard() {
+        flipCountRef.current += 1;
+        console.log('Total flips:', flipCountRef.current);
         setIsFlipped(!isFlipped);
     }
 
