@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, useContext } from 'react';
+import { createContext, useState, useEffect, useContext, useMemo } from 'react';
 
 // Step 1: Create the context (the "bulletin board")
 const CardContext = createContext();
@@ -125,9 +125,10 @@ function CardProvider({ children }) {
     }));
   }
 
-  const dueCards = cards.filter(
-    card => new Date(card.nextReview) <= new Date()
-  );
+  const dueCards = useMemo(() => {
+    return cards.filter(card => new Date(card.nextReview) <= new Date());
+  }, [cards]);
+
   const cardsToStudy = studyAllMode ? cards : dueCards;
 
   // Everything inside "value" is what any child component can access
