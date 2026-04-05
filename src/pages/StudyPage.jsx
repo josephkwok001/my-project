@@ -1,9 +1,8 @@
 import StudyCard from '../components/StudyCard';
 import { useCards } from '../context/CardContext';
-import { useState } from 'react';
 
 function StudyPage() {
-  const [studyAllMode, setStudyAllMode] = useState(false);
+  const { studyAllMode, setStudyAllMode } = useCards();
 
   return (
     <div>
