@@ -3,6 +3,7 @@ import { CardProvider } from './context/CardContext';
 import StudyPage from './pages/StudyPage';
 import CardsPage from './pages/CardsPage';
 import StatsPage from './pages/StatsPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
         <div className="app-container">
           <h1>Flashcards</h1>
 
-          <nav className="nav-bar">
+          <nav className="nav-bar"> 
             <NavLink to="/">Study</NavLink>
             <NavLink to="/cards">My Cards</NavLink>
             <NavLink to="/stats">Stats</NavLink>
@@ -22,6 +23,7 @@ function App() {
             <Route path="/" element={<StudyPage />} />
             <Route path="/cards" element={<CardsPage />} />
             <Route path="/stats" element={<StatsPage />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>
       </CardProvider>
