@@ -131,8 +131,19 @@ function StudyCard() {
 
     return (
         <div className="study-card-container">
-            <div className="card-display" onClick={flipCard}>
-                {isFlipped ? <p>{currentCard.back}</p> : <p>{currentCard.front}</p>}
+            <div className="card-flip-wrapper" onClick={flipCard}>
+                <div className={`card-flip-inner ${isFlipped ? 'flipped' : ''}`}>
+                    <div className="card-flip-front">
+                        <span className="card-flip-label">Front</span>
+                        <p>{currentCard.front}</p>
+                        <span className="card-flip-hint">Click to flip</span>
+                    </div>
+                    <div className="card-flip-back">
+                        <span className="card-flip-label">Back</span>
+                        <p>{currentCard.back}</p>
+                        <span className="card-flip-hint">Click to flip</span>
+                    </div>
+                </div>
             </div>
             <p className="card-counter">Card {safeIndex + 1} of {cards.length}</p>
             {!studyAllMode && (
@@ -144,9 +155,9 @@ function StudyCard() {
                 </div>
             )}
             <div className="study-nav-buttons">
-                <button onClick={flipCard}>Flip Card</button>
-                <button onClick={prevCard}>Previous Card</button>
-                <button onClick={nextCard}>Next Card</button>
+                <button onClick={flipCard}>Flip</button>
+                <button onClick={prevCard}>Prev</button>
+                <button onClick={nextCard}>Next</button>
             </div>
         </div>
     );

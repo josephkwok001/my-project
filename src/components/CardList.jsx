@@ -34,21 +34,25 @@ function CardList() {
 
   return (
   <div className="card-list-container">
-    <h2>My Flashcards ({cards.length})</h2>
+    <h2>My Flashcards <span>({cards.length})</span></h2>
     <ul>
       {cards.map(card => (
         <li key={card.id}>
           {editingId === card.id ? (
             <>
-              <input
-                ref={editFrontRef}
-                value={editFront}
-                onChange={(e) => setEditFront(e.target.value)}
-              />
-              <input
-                value={editBack}
-                onChange={(e) => setEditBack(e.target.value)}
-              />
+              <div className="card-edit-inputs">
+                <input
+                  ref={editFrontRef}
+                  value={editFront}
+                  onChange={(e) => setEditFront(e.target.value)}
+                  placeholder="Front"
+                />
+                <input
+                  value={editBack}
+                  onChange={(e) => setEditBack(e.target.value)}
+                  placeholder="Back"
+                />
+              </div>
               <div className="card-actions">
                 <button onClick={() => saveEdit(card.id)}>Save</button>
                 <button onClick={cancelEdit}>Cancel</button>
@@ -56,10 +60,14 @@ function CardList() {
             </>
           ) : (
             <>
-              <span className="card-content">{card.front} - {card.back}</span>
+              <span className="card-content">
+                <span className="card-front">{card.front}</span>
+                <span className="card-separator">/</span>
+                <span className="card-back">{card.back}</span>
+              </span>
               <div className="card-actions">
                 <button onClick={() => startEdit(card)}>Edit</button>
-                <button onClick={() => deleteCard(card.id)}>Delete</button>
+                <button className="btn-delete" onClick={() => deleteCard(card.id)}>Delete</button>
               </div>
             </>
           )}
