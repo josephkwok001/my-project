@@ -12,13 +12,13 @@ function StudyCard() {
 
     const displayCards = shuffledCards || cards;
 
-    // When the cards list shrinks (e.g. after rating in Due today mode),
-    // clamp index so we don't point past the end.
+    // When the source cards change (mode switch, card rated, etc.),
+    // clear the shuffle and reset position.
     useEffect(() => {
-        if (cards.length > 0 && index >= cards.length) {
-            setIndex(cards.length - 1);
-        }
-    }, [cards.length, index]);
+        setShuffledCards(null);
+        setIndex(0);
+        setIsFlipped(false);
+    }, [cards]);
 
     useEffect(() => {
         function handleKeyDown(event) {
