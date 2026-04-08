@@ -6,8 +6,11 @@ function StudyCard() {
 
     const [index, setIndex] = useState(0);
     const [isFlipped, setIsFlipped] = useState(false);
+    const [shuffledCards, setShuffledCards] = useState(null);
 
     const flipCountRef = useRef(0);
+
+    const displayCards = shuffledCards || cards;
 
     // When the cards list shrinks (e.g. after rating in Due today mode),
     // clamp index so we don't point past the end.
@@ -78,7 +81,7 @@ function StudyCard() {
     function nextCard() {
         const nextId = index + 1;   
 
-        if (nextId >= cards.length) {
+        if (nextId >= displayCards.length) {
             setIndex(0);
         } else {
             setIndex(nextId);
@@ -91,7 +94,7 @@ function StudyCard() {
         const nextId = index - 1;
 
         if (nextId < 0) {
-            setIndex(cards.length - 1);
+            setIndex(displayCards.length - 1);
         } else {
             setIndex(nextId);
         }
@@ -99,9 +102,25 @@ function StudyCard() {
         setIsFlipped(false);
     }
 
-    // Derive a safe index and current card so we never read cards[undefined]
-    const safeIndex = Math.min(index, Math.max(cards.length - 1, 0));
-    const currentCard = cards[safeIndex];
+    function shuffleCards() {
+        const copy = [...cards];
+        for (let i = copy.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [copy[i], copy[j]] = [copy[j], copy[i]];
+        }
+        setShuffledCards(copy);
+        setIndex(0);
+        setIsFlipped(false);
+    }
+
+    function unshuffleCards() {
+        setShuffledCards(null);
+        setIndex(0);
+        setIsFlipped(false);
+    }
+
+    const safeIndex = Math.min(index, Math.max(displayCards.length - 1, 0));
+    const currentCard = displayCards[safeIndex];
 
     function handleQuality(quality) {
         const cardId = currentCard?.id;
@@ -110,14 +129,14 @@ function StudyCard() {
             updateCardReview(cardId, quality);
         }
         setIndex(i => {
-            if (cards.length === 0) return 0;
+            if (displayCards.length === 0) return 0;
             const next = i + 1;
-            return next >= cards.length ? 0 : next;
+            return next >= displayCards.length ? 0 : next;
         });
         setIsFlipped(false);
     }
     
-    if (cards.length === 0) {
+    if (displayCards.length === 0) {
         return (
             <div className="study-card-container">
                 <p>
@@ -145,7 +164,10 @@ function StudyCard() {
                     </div>
                 </div>
             </div>
-            <p className="card-counter">Card {safeIndex + 1} of {cards.length}</p>
+            <p className="card-counter">
+                Card {safeIndex + 1} of {displayCards.length}
+                {shuffledCards && ' (shuffled)'}
+            </p>
             {!studyAllMode && (
                 <div className="quality-buttons">
                     <button type="button" className="quality-again" onClick={() => handleQuality(1)}>Again</button>
@@ -158,6 +180,9 @@ function StudyCard() {
                 <button onClick={flipCard}>Flip</button>
                 <button onClick={prevCard}>Prev</button>
                 <button onClick={nextCard}>Next</button>
+                <button onClick={shuffledCards ? unshuffleCards : shuffleCards}>
+                    {shuffledCards ? 'Unshuffle' : 'Shuffle'}
+                </button>
             </div>
         </div>
     );
