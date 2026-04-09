@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useCards } from '../context/CardContext';
 
 function StudyCard() {
@@ -7,8 +7,6 @@ function StudyCard() {
     const [index, setIndex] = useState(0);
     const [isFlipped, setIsFlipped] = useState(false);
     const [shuffledCards, setShuffledCards] = useState(null);
-
-    const flipCountRef = useRef(0);
 
     const displayCards = shuffledCards || cards;
 
@@ -73,8 +71,6 @@ function StudyCard() {
 
 
     function flipCard() {
-        flipCountRef.current += 1;
-        console.log('Total flips:', flipCountRef.current);
         setIsFlipped(!isFlipped);
     }
 
