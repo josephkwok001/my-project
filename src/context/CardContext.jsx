@@ -6,6 +6,7 @@ const CardContext = createContext();
 // Step 2: Create a Provider component that holds all the card data and logic
 function CardProvider({ children }) {
 
+  // children refers to everythign that you put inside <CardProvider> in App.jsx renders here
   const [cards, setCards] = useState(() => {
     const savedCards = localStorage.getItem('flashcards');
 
@@ -132,6 +133,7 @@ function CardProvider({ children }) {
   const cardsToStudy = studyAllMode ? cards : dueCards;
 
   // Everything inside "value" is what any child component can access
+  // this is the component react's context system regonizes
   return (
     <CardContext.Provider value={{
       cards,
