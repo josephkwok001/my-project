@@ -6,12 +6,19 @@ const CardContext = createContext();
 // Step 2: Create a Provider component that holds all the card data and logic
 function CardProvider({ children }) {
 
-  // children refers to everythign that you put inside <CardProvider> in App.jsx renders here
+  // children refers to everything that you put inside <CardProvider> in App.jsx renders here
   const [cards, setCards] = useState(() => {
     const savedCards = localStorage.getItem('flashcards');
 
     if (savedCards) {
-      return JSON.parse(savedCards);
+      try {
+        const parsed = JSON.parse(savedCards);
+        if (Array.isArray(parsed)) {
+          return parsed;
+        }
+      } catch {
+        // ignore corrupt or legacy data
+      }
     }
 
     return [
@@ -133,7 +140,7 @@ function CardProvider({ children }) {
   const cardsToStudy = studyAllMode ? cards : dueCards;
 
   // Everything inside "value" is what any child component can access
-  // this is the component react's context system regonizes
+  // this is the component react's context system recognizes
   return (
     <CardContext.Provider value={{
       cards,
@@ -150,9 +157,10 @@ function CardProvider({ children }) {
   );
 }
 
-// Step 3: Custom hook -- a shortcut so components don't have to import both CardContext and useContext
 function useCards() {
-  return useContext(CardContext);
+  return useContext(CardContext); 
 }
+// Step 3: Custom hook -- a shortcut so components don't have to import both CardContext and useContext
+// this is instead of prop handling, where you pass multiple props from the parent to the child
 
 export { CardProvider, useCards };
