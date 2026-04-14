@@ -160,7 +160,12 @@ function CardProvider({ children }) {
 function useCards() {
   return useContext(CardContext); 
 }
-// Step 3: Custom hook -- a shortcut so components don't have to import both CardContext and useContext
+// Step 3: Custom hook -- a shortcut so components don't have to import both CardContext and useContext 
+// 
+// 
+// 
+// 
+// mafdskfmsalfsmf;
 // this is instead of prop handling, where you pass multiple props from the parent to the child
 
 export { CardProvider, useCards };
