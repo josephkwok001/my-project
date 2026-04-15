@@ -12,19 +12,6 @@ function Statistics() {
         };
     }, [cards]);
 
-
-    /*
-    User flips a card (cards didn't change)
-    → Statistics re-renders
-    → useMemo checks: did "cards" change? No.
-    → Reuses cached result. Filters don't run.
-
-    User adds a new card (cards changed)
-  → Statistics re-renders
-  → useMemo checks: did "cards" change? Yes!
-  → Re-runs the filters. Caches the new result.
-    */
-
     return (
         <div className="stats-container">
             <h2>Statistics</h2>
@@ -49,5 +36,17 @@ function Statistics() {
         </div>
     );
 }
+
+
+/*
+    User flips a card (cards didn't change)
+    → Statistics re-renders
+    → useMemo checks: did "cards" change? No.
+    → Reuses cached result. Filters don't run.
+    User adds a new card (cards changed)
+  → Statistics re-renders
+  → useMemo checks: did "cards" change? Yes!
+  → Re-runs the filters. Caches the new result.
+    */
 
 export default Statistics;

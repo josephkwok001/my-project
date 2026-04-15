@@ -394,6 +394,37 @@ button:active {
     box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
 
+.delete-confirm-inline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+}
+
+.delete-confirm-label {
+    color: #444;
+    font-weight: 600;
+}
+
+.card-actions .btn-delete-confirm,
+.card-actions .btn-delete-cancel {
+    padding: 4px 10px;
+    font-size: 0.8rem;
+}
+
+.card-actions .btn-delete-confirm {
+    background: #ef4444;
+    color: white;
+    border-color: #ef4444;
+}
+
+.card-actions .btn-delete-cancel {
+    background: #f3f4f6;
+    color: #374151;
+    border-color: #e5e7eb;
+}
+
 .card-edit-inputs {
     flex: 1;
     display: flex;

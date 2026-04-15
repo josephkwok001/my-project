@@ -6,6 +6,8 @@ function CardList() {
   const [editingId, setEditingId] = useState(null);
   const [editFront, setEditFront] = useState('');
   const [editBack, setEditBack] = useState('');
+  /** Row asking “really delete?” — avoids relying on window.confirm (blocked in some setups). */
+  const [pendingDeleteId, setPendingDeleteId] = useState(null);
 
   const editFrontRef = useRef(null);
 
@@ -16,6 +18,7 @@ function CardList() {
   }, [editingId]);
 
   function startEdit(card) {
+    setPendingDeleteId(null);
     setEditingId(card.id);
     setEditFront(card.front);
     setEditBack(card.back);
@@ -66,18 +69,37 @@ function CardList() {
                 <span className="card-back">{card.back}</span>
               </span>
               <div className="card-actions">
-                <button onClick={() => startEdit(card)}>Edit</button>
-                <button
-                  type="button"
-                  className="btn-delete"
-                  onClick={() => {
-                    if (window.confirm('Delete this card?')) {
-                      deleteCard(card.id);
-                    }
-                  }}
-                >
-                  Delete
-                </button>
+                <button type="button" onClick={() => startEdit(card)}>Edit</button>
+                {pendingDeleteId === card.id ? (
+                  <span className="delete-confirm-inline">
+                    <span className="delete-confirm-label">Delete this card?</span>
+                    <button
+                      type="button"
+                      className="btn-delete-confirm"
+                      onClick={() => {
+                        deleteCard(card.id);
+                        setPendingDeleteId(null);
+                      }}
+                    >
+                      Yes
+                    </button>
+                    <button
+                      type="button"
+                      className="btn-delete-cancel"
+                      onClick={() => setPendingDeleteId(null)}
+                    >
+                      No
+                    </button>
+                  </span>
+                ) : (
+                  <button
+                    type="button"
+                    className="btn-delete"
+                    onClick={() => setPendingDeleteId(card.id)}
+                  >
+                    Delete
+                  </button>
+                )}
               </div>
             </>
           )}

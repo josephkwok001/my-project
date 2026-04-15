@@ -18,6 +18,7 @@ function App() {
             <NavLink to="/stats">Stats</NavLink>
           </nav>
 
+          
           <Routes>
             <Route path="/" element={<StudyPage />} />
             <Route path="/cards" element={<CardsPage />} />
