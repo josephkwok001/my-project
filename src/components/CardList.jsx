@@ -67,7 +67,17 @@ function CardList() {
               </span>
               <div className="card-actions">
                 <button onClick={() => startEdit(card)}>Edit</button>
-                <button className="btn-delete" onClick={() => deleteCard(card.id)}>Delete</button>
+                <button
+                  type="button"
+                  className="btn-delete"
+                  onClick={() => {
+                    if (window.confirm('Delete this card?')) {
+                      deleteCard(card.id);
+                    }
+                  }}
+                >
+                  Delete
+                </button>
               </div>
             </>
           )}
