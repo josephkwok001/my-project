@@ -8,7 +8,7 @@ function CardList() {
   const [editBack, setEditBack] = useState('');
   /** Row asking “really delete?” — avoids relying on window.confirm (blocked in some setups). */
   const [pendingDeleteId, setPendingDeleteId] = useState(null);
-  const [filteredCards, setFilteredCards] = useState(null);
+  const [filterText, setFilterText] = useState('');
 
   const editFrontRef = useRef(null);
 
@@ -34,28 +34,33 @@ function CardList() {
     setEditingId(null);
   }
 
-
   function filterCards(frontName) {
-    filtered = cards.filter((card) =>
-      card.front.toLowerCase().includes(frontName.trim().toLowerCase())
+    const trimmed = frontName.trim().toLowerCase();
+    if (trimmed === '') {
+      return cards;
+    }
+    return cards.filter((card) =>
+      card.front.toLowerCase().includes(trimmed)
     );
   }
 
+  const visibleCards = filterCards(filterText);
+
   return (
   <div className="card-list-container">
-    <h3>Filter Cards: </h3>
-    <input
-      id = "card-front-filter"
-      type = "text"
-      value = {filterText}
-      placeholder = "Type to filter..."
-      onChange={(e) => setFilterText(e.target.value)}
-    />
+    <label htmlFor="card-front-filter">Filter by front</label>
+  <input
+    id="card-front-filter"
+    type="text"
+    value={filterText}
+    placeholder="Type to filter…"
+    onChange={(e) => setFilterText(e.target.value)}
+  />
     
     <h2>My Flashcards <span>({cards.length})</span></h2>
 
     <ul>
-      {cards.map(card => (
+      {visibleCards.map(card => (
         <li key={card.id}>
           {editingId === card.id ? (
             <>
