@@ -368,13 +368,22 @@ button:active {
     display: block;
 }
 .card-list-filter-input {
+    font-size: 1rem;
+    background: #fafafa;
     width: 100%;
     padding: 12px 14px;
     border: 2px solid #e5e7eb;
     border-radius: 10px;
+    margin-bottom: 10px;
     display: block;
 }
 
+.card-list-filter-input:focus {
+    outline: none;
+    border-color: #667eea; 
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+    background: white;
+}
 
 .card-content {
     flex: 1;

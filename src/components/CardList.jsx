@@ -48,8 +48,10 @@ function CardList() {
 
   return (
   <div className="card-list-container">
-  
-  <div className="card-list-filter-row">
+    
+    <h2>My Flashcards <span>({cards.length})</span></h2>
+
+    <div className="card-list-filter-row">
     <label className="card-list-filter-label" htmlFor="card-front-filter">Filter card by front</label>
     <input
     className="card-list-filter-input"
@@ -60,9 +62,7 @@ function CardList() {
     onChange={(e) => setFilterText(e.target.value)}
   />
   </div>
-    
-    <h2>My Flashcards <span>({cards.length})</span></h2>
-
+  
     <ul>
       {visibleCards.map(card => (
         <li key={card.id}>
