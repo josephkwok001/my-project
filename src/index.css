@@ -350,6 +350,32 @@ button:active {
     margin-bottom: 0;
 }
 
+
+.card-list-filter-row {
+    background: #fafafa;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    padding: 10px; 
+    margin-bottom: 10px; 
+    display: block;
+}
+
+.card-list-filter-label {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #667eea;
+    display: block;
+}
+.card-list-filter-input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    display: block;
+}
+
+
 .card-content {
     flex: 1;
     font-size: 1rem;
