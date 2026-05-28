@@ -5,19 +5,18 @@ function AddCardForm() {
   const { addCard } = useCards();
     const [front, setFront] = useState('');
     const [back, setBack] = useState('');
-    // holds the text Gemini returns
     const [suggestion, setSuggestion] = useState('');
-    // tracks whether the API call is in progress
     const [isLoading, setIsLoading] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
     const frontInputRef = useRef(null);
 
     async function suggestBack() {
-      // Don't call API if front is empty
       if (!front.trim()) return;
-    
+
       setIsLoading(true);
       setSuggestion('');
-    
+      setErrorMsg('');
+
       try {
         const response = await fetch(
           `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${import.meta.env.VITE_GEMINI_KEY}`,
@@ -37,30 +36,50 @@ function AddCardForm() {
             }),
           }
         );
-    
+
+        if (!response.ok) {
+          // surface API errors (quota, bad key, etc.) instead of silently swallowing them
+          const errData = await response.json().catch(() => null);
+          const apiMsg = errData?.error?.message;
+          throw new Error(apiMsg || `Request failed (${response.status})`);
+        }
+
         const data = await response.json();
-        console.log('Gemini response:', data);
         const text = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
         if (text) {
           setSuggestion(text);
+        } else {
+          setErrorMsg('No suggestion returned. Try a different word.');
         }
       } catch (error) {
         console.error('Gemini error:', error);
+        const msg = String(error?.message ?? error);
+        setErrorMsg(
+          msg.includes('Failed to fetch')
+            ? 'Network error. Check your internet connection.'
+            : `AI suggest failed: ${msg}`
+        );
       } finally {
         setIsLoading(false);
       }
     }
 
     function handleSubmit() {
-        addCard(front, back);
+        const trimmedFront = front.trim();
+        const trimmedBack = back.trim();
+        if (!trimmedFront || !trimmedBack) {
+            setErrorMsg('Both Front and Back are required.');
+            return;
+        }
 
-        // Clear the inputs after submitting
+        addCard(trimmedFront, trimmedBack);
+
         setFront('');
         setBack('');
         setSuggestion('');
+        setErrorMsg('');
 
-        // Focus the front input so user can immediately type the next card
-        frontInputRef.current.focus();
+        frontInputRef.current?.focus();
     }
 
     return (
@@ -109,6 +128,9 @@ function AddCardForm() {
               </button>
             </div>
             <button onClick={handleSubmit}>Add flashcard</button>
+            {errorMsg && (
+              <p className="form-error" role="alert">{errorMsg}</p>
+            )}
         </div>
     );
 

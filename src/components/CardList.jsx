@@ -26,7 +26,10 @@ function CardList() {
   }
 
   function saveEdit(id) {
-    editCard(id, editFront, editBack);
+    const trimmedFront = editFront.trim();
+    const trimmedBack = editBack.trim();
+    if (!trimmedFront || !trimmedBack) return;
+    editCard(id, trimmedFront, trimmedBack);
     setEditingId(null);
   }
 

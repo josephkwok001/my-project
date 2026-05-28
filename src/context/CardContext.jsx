@@ -68,8 +68,15 @@ function CardProvider({ children }) {
   }, [cards]);
 
   function addCard(front, back) {
+    // randomUUID avoids id collisions from rapid clicks and keeps ids
+    // as strings, matching the seed cards above.
+    const newId =
+      typeof crypto !== 'undefined' && crypto.randomUUID
+        ? crypto.randomUUID()
+        : String(Date.now()) + '-' + Math.random().toString(36).slice(2, 8);
+
     const newCard = {
-      id: Date.now(),
+      id: newId,
       front,
       back,
       easeFactor: 2.5,

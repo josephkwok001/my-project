@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useCards } from '../context/CardContext';
 
 function StudyCard() {
@@ -18,6 +18,11 @@ function StudyCard() {
         setIsFlipped(false);
     }, [cards]);
 
+    // Hold the latest handlers in a ref so the keydown listener
+    // can be installed exactly once without going stale.
+    const handlersRef = useRef({});
+    handlersRef.current = { flipCard, prevCard, nextCard, handleQuality, studyAllMode };
+
     useEffect(() => {
         function handleKeyDown(event) {
             const activeTag = document.activeElement?.tagName;
@@ -25,49 +30,47 @@ function StudyCard() {
                 return;
             }
 
+            const h = handlersRef.current;
+
             switch(event.key) {
-                case ' ': // Spacebar
+                case ' ':
                     event.preventDefault();
-                    flipCard();
+                    h.flipCard();
                     break;
-                case 'ArrowLeft': 
+                case 'ArrowLeft':
                     event.preventDefault();
-                    prevCard();
+                    h.prevCard();
                     break;
-                case 'ArrowRight': 
+                case 'ArrowRight':
                     event.preventDefault();
-                    nextCard();
+                    h.nextCard();
                     break;
                 case '1':
                     event.preventDefault();
-                    if(!studyAllMode) handleQuality(1);
+                    if (!h.studyAllMode) h.handleQuality(1);
                     break;
                 case '2':
-                    // Hard
                     event.preventDefault();
-                    if (!studyAllMode) handleQuality(2);
+                    if (!h.studyAllMode) h.handleQuality(2);
                     break;
                 case '3':
-                    // Good
                     event.preventDefault();
-                    if (!studyAllMode) handleQuality(3);
+                    if (!h.studyAllMode) h.handleQuality(3);
                     break;
                 case '4':
-                    // Easy
                     event.preventDefault();
-                    if (!studyAllMode) handleQuality(4);
+                    if (!h.studyAllMode) h.handleQuality(4);
                     break;
                 default:
                     break;
             }
         }
-        
+
         window.addEventListener('keydown', handleKeyDown);
-        
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, [studyAllMode, flipCard, prevCard, nextCard, handleQuality]);
+    }, []);
 
 
     function flipCard() {
